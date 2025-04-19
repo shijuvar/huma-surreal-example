@@ -55,31 +55,32 @@ func addRoutes(api huma.API, resController *controller.ResourceController) {
 
 	// Register DELETE /resources/{id}
 	huma.Register(api, huma.Operation{
-		OperationID:   "delete-resource",
-		Method:        http.MethodDelete,
-		Path:          "/resources/{id}",
-		Summary:       "Delete a resource by its ID",
-		Description:   "Delete a resource",
-		Tags:          []string{"Resources"},
-		DefaultStatus: http.StatusNoContent,
+		OperationID: "delete-resource",
+		Method:      http.MethodDelete,
+		Path:        "/resources/{id}",
+		Summary:     "Delete a resource by its ID",
+		Description: "Delete a resource",
+		Tags:        []string{"Resources"},
 	}, resController.DeleteByID)
 
 	// Register PUT /resources/{id}
 	huma.Register(api, huma.Operation{
-		OperationID:   "update-resource",
-		Method:        http.MethodPut,
-		Path:          "/resources/{id}",
-		Summary:       "Update a resource by its ID",
-		Description:   "Update a resource",
-		Tags:          []string{"Resources"},
-		DefaultStatus: http.StatusNoContent,
+		OperationID: "update-resource",
+		Method:      http.MethodPut,
+		Path:        "/resources/{id}",
+		Summary:     "Update a resource by its ID",
+		Description: "Update a resource",
+		Tags:        []string{"Resources"},
 	}, resController.Update)
 }
 
 func main() {
+	// Connecting to SurrealDB and getting surrealdb.DB
 	db := getSurrealDB()
 	defer db.Close()
-	resourceRepository := surrealdata.NewResourceRespository(db)
+	// Creates ResourceRepository with SurrealDB
+	resourceRepository := surrealdata.NewResourceRepository(db)
+	// Creates ResourceController that provides handler functions
 	resController := controller.NewResourceController(resourceRepository)
 
 	// Create a CLI app which takes a port option.
@@ -101,7 +102,7 @@ func main() {
 		})
 	})
 
-	// Run the CLI. When passed no commands, it starts the server.
+	// Run the CLI.
 	cli.Run()
 }
 

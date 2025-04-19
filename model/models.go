@@ -7,7 +7,8 @@ import (
 )
 
 var (
-	ErrResourceNotFound = errors.New("resource not found")
+	ErrResourceIDNotFound = errors.New("resource not found for the id")
+	ErrResourcesNotFound  = errors.New("resources not found")
 )
 
 type Resource struct {
